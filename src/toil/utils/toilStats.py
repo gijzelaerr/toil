@@ -535,11 +535,15 @@ def processData(config, stats):
     ##########################################
     # Collate the stats and report
     ##########################################
-    if stats.get("total_time", None) is None:  # Hack to allow unfinished toils.
-        stats.total_time = {"total_time": "0.0", "total_clock": "0.0"}
-    else:
+    if "total_time" in stats:
         stats.total_time = sum([float(number) for number in stats.total_time])
+    else:
+        stats.total_time = 0.0
+
+    if "total_clock" in stats:
         stats.total_clock = sum([float(number) for number in stats.total_clock])
+    else:
+        stats.total_clock = 0.0
 
     collatedStatsTag = Expando(total_run_time=stats.total_time,
                                total_clock=stats.total_clock,
